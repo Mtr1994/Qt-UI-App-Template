@@ -38,7 +38,7 @@ FORMS += \
     mainwindow.ui
 
 TRANSLATIONS += \
-    TemplateUI_zh_CN.ts
+    Translate_zh_CN.ts
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
