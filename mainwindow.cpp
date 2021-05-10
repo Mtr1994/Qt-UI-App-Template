@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
 
 #include <QScreen>
@@ -11,6 +11,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     init();
+
+    setWindowTitle("木头人可视化模板");
 }
 
 MainWindow::~MainWindow()

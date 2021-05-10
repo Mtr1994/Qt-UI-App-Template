@@ -14,6 +14,8 @@ unix: QMAKE_LFLAGS += -no-pie
 win32:  VERSION = 21.5.9.1140                # major.minor.patch.build
 else:   VERSION = 21.5.9                    # major.minor.patch
 
+QMAKE_TARGET_COPYRIGHT = mtr company Co., Ltd
+
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -50,4 +52,5 @@ RC_ICONS = ./Resourse/icon/icon.ico
 RESOURCES += \
     res.qrc
 
-DISTFILES +=
+#0x0800代表和系统当前语言一致
+RC_LANG = 0x0800
