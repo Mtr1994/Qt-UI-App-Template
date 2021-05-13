@@ -79,7 +79,7 @@ QLineEdit:focus
 /* QStatusBar */
 QStatusBar
 {
-    min-height: 2.4em;
+    min-height: 2.0em;
     background-color: #fefefe;
     border-top: 1px solid #e0e0e0;
     color: #666666;
