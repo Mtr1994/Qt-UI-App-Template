@@ -1,4 +1,9 @@
-﻿QWidget[Background="true"]
+QWidget:focus
+{
+    outline: none; /*去掉选中时的虚线边框*/
+}
+
+QWidget[Background="true"]
 {
     background-color: #fefefe;
     font: 10pt "微软雅黑";
