@@ -2,7 +2,6 @@
 #include "ui_mainwindow.h"
 
 #include <QScreen>
-#include <QDesktopWidget>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
