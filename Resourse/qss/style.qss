@@ -62,6 +62,33 @@ QPushButton[Cancel="true"]:!enabled
     background-color: #444444;
 }
 
+QPushButton[Danger="true"]
+{
+    min-height: 2.4em;
+    min-width: 6em;
+    border: 1px solid #ff4d4f;
+    border-radius: 0.3em;
+    padding-left: 1em;
+    padding-right: 1em;
+    color: #fefefe;
+    background-color: #ff4d4f;
+}
+
+QPushButton[Danger="true"]:hover
+{
+    background-color: #ff7875;
+}
+
+QPushButton[Danger="true"]:pressed
+{
+    background-color: #d9363e;
+}
+
+QPushButton[Danger="true"]:!enabled
+{
+    background-color: #444444;
+}
+
 /* QLineEdit */
 QLineEdit
 {
