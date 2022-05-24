@@ -1,6 +1,6 @@
 QWidget
 {
-    font: 10pt "Microsoft YaHei";
+    font: 10pt "Microsoft Yahei";
 }
 
 QWidget:focus
