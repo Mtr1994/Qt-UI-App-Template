@@ -18,8 +18,7 @@ QPushButton[Ok="true"]
 {
     min-width: 4.8em;
     min-height: 2.4em;
-    border: 1px solid #b3d8ff;
-    border-radius: 2px;
+    border-radius: 0.2em;
     padding-left: 1em;
     padding-right: 1em;
     color: #fefefe;
