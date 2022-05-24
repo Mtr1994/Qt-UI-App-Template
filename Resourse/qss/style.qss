@@ -1,3 +1,8 @@
+QWidget
+{
+    font: 10pt "Microsoft YaHei";
+}
+
 QWidget:focus
 {
     outline: none; /*去掉选中时的虚线边框*/
@@ -6,13 +11,13 @@ QWidget:focus
 QWidget[Background="true"]
 {
     background-color: #fefefe;
-    font: 10pt "微软雅黑";
 }
 
 /* QPushButton */
 QPushButton[Ok="true"]
 {
-    min-height: 1.5em;
+    min-width: 4.8em;
+    min-height: 2.4em;
     border: 1px solid #b3d8ff;
     border-radius: 2px;
     padding-left: 1em;
@@ -111,7 +116,7 @@ QLineEdit:focus
 /* QStatusBar */
 QStatusBar
 {
-    min-height: 1.8em;
+    min-height: 1.2em;
     background-color: #fefefe;
     border-top: 1px solid #e0e0e0;
     color: #666666;
