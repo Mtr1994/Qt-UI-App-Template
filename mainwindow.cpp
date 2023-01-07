@@ -9,7 +9,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     init();
 
-    setWindowTitle("木头人可视化模板");
+    setWindowTitle("Mtr1994 可视化模板");
 }
 
 MainWindow::~MainWindow()
