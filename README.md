@@ -1,9 +1,17 @@
-# Qt-UI-App-Template
-a template for all the UI application
-## 介绍
-  为了减少新建工程的固定工作量，提供一套 ui 程序的模板工程，附带默认的　QSS　文件、默认的图标、默认的初始化大小等，帮助开发者快速建立新的工程，避免前期重复的工作！
-  
-## 快速获取
+# Qt-Ui-Template
+
+![Platform](https://img.shields.io/badge/paltform-win10_x64-brightgreen)
+![Qt Version](https://img.shields.io/badge/_Qt_-5.15.2-yellowgreen)
+![Build](https://img.shields.io/badge/build-MSVC_2019_x64-blue)
+
+#### 介绍
+通用的 Qt Widget 程序模板
+
+#### 软件架构
+`Qt`
+
+#### 快速获取
+
 从 `Github` 获取模板程序需要多个步骤，耗费时间，使用脚本来获取会更方便，脚本内容如下：
 
 ```
@@ -15,7 +23,7 @@ echo -e "init git repository \r\n"
 git init
 
 echo -e "add remote origin \r\n"
-git remote add origin git@github.com:Mtr1994/Qt-UI-App-Template.git
+git remote add origin git@gitee.com:Mtr1994/Qt-Ui-Template.git
 
 echo -e "get template code from master \r\n"
 git pull origin master

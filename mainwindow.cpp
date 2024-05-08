@@ -1,5 +1,6 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "Public/appconfig.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -9,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     init();
 
-    setWindowTitle("Mtr1994 可视化模板");
+    setWindowTitle("Mtr1994");
 }
 
 MainWindow::~MainWindow()
@@ -19,6 +20,9 @@ MainWindow::~MainWindow()
 
 void MainWindow::init()
 {
+    float pointSize = AppConfig::getInstance()->getValue("PointSize", "value").toFloat();
+    setMinimumSize(pointSize * 124, pointSize * 124 * 0.618);
 
+    // add user code here
 }
 
