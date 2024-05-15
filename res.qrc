@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
-        <file>Resource/icon/icon.ico</file>
-        <file>Resource/qss/style.qss</file>
-        <file>Resource/json/constants.json</file>
+        <file>resource/icon/icon.ico</file>
+        <file>resource/qss/style.qss</file>
+        <file>resource/json/constants.json</file>
     </qresource>
 </RCC>

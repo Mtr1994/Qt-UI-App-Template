@@ -15,7 +15,7 @@ AppConstants::AppConstants()
 void AppConstants::init()
 {
     // 填充状态码
-    QFile file(":/Resource/json/constants.json");
+    QFile file(":/resource/json/constants.json");
     if (!file.open(QFile::ReadOnly)) return;
     mJsonDocument = QJsonDocument::fromJson(file.readAll());
 }

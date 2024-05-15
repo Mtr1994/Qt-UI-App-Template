@@ -11,7 +11,7 @@ unix: QMAKE_LFLAGS += -no-pie
 
 # Qt 5.14 VERSION can only contains numbers, no any others type of character please
 # please do not put 0 before any version number, because this will cause a warnning on Qt 5.14
-win32:  VERSION = 23.01.07.1140                # major.minor.patch.build
+win32:  VERSION = 24.05.15.1644                # major.minor.patch.build
 else:   VERSION = 21.5.9                    # major.minor.patch
 
 QMAKE_TARGET_COPYRIGHT = Create By User Mtr1994
@@ -31,17 +31,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # You can also select to disable deprecated APIs only up to a certain version of Qt.
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
+INCLUDEPATH += $$PWD/sdk/spdlog/include
+
 SOURCES += \
-    Public/appconfig.cpp \
-    Public/appconstants.cpp \
-    Public/appsignal.cpp \
+    conf/appconfig.cpp \
+    log/logger.cpp \
+    public/appconstants.cpp \
+    public/appsignal.cpp \
     main.cpp \
     mainwindow.cpp
 
 HEADERS += \
-    Public/appconfig.h \
-    Public/appconstants.h \
-    Public/appsignal.h \
+    conf/appconfig.h \
+    log/logger.h \
+    public/appconstants.h \
+    public/appsignal.h \
     mainwindow.h
 
 FORMS += \
@@ -55,10 +59,13 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-RC_ICONS = ./Resource/icon/icon.ico
+RC_ICONS = ./resource/icon/icon.ico
 
 RESOURCES += \
     res.qrc
 
 #0x0800代表和系统当前语言一致
 RC_LANG = 0x0800
+
+LIBS +=-L$$PWD/sdk/spdlog/lib
+LIBS +=-lspdlog

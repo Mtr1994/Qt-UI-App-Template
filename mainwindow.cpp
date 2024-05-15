@@ -1,6 +1,6 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "Public/appconfig.h"
+#include "conf/appconfig.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -20,8 +20,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::init()
 {
-    float pointSize = AppConfig::getInstance()->getValue("PointSize", "value").toFloat();
-    setMinimumSize(pointSize * 124, pointSize * 124 * 0.618);
+    float pointSize = stof(AppConfig::getInstance()->getValue("PointSize", "value"));
+    setMinimumSize(pointSize * 100, pointSize * 100 * 0.618);
 
     // add user code here
 }
