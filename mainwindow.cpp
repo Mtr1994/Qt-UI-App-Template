@@ -1,6 +1,7 @@
 ﻿#include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "conf/appconfig.h"
+
+#include <QScreen>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -9,8 +10,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
 
     init();
-
-    setWindowTitle("Mtr1994");
 }
 
 MainWindow::~MainWindow()
@@ -20,8 +19,10 @@ MainWindow::~MainWindow()
 
 void MainWindow::init()
 {
-    float pointSize = stof(AppConfig::getInstance()->getValue("PointSize", "value"));
-    setMinimumSize(pointSize * 100, pointSize * 100 * 0.618);
+    setWindowTitle("Mtr1994");
+
+    float dpi = screen()->physicalDotsPerInch();
+    resize(dpi * 10, dpi * 10 * 0.618);
 
     // add user code here
 }
