@@ -35,6 +35,7 @@
       <property name="Background" stdset="0">
        <bool>true</bool>
       </property>
+      <layout class="QGridLayout" name="gridLayout_2"/>
      </widget>
     </item>
    </layout>
@@ -45,7 +46,7 @@
      <x>0</x>
      <y>0</y>
      <width>797</width>
-     <height>21</height>
+     <height>20</height>
     </rect>
    </property>
   </widget>

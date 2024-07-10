@@ -1,12 +1,6 @@
-QMainWindow#MainWindow
-{
-    min-width: 48em;
-    min-height: 24em;
-}
-
 QWidget
 {
-    font: 10pt "Microsoft Yahei";
+    font: 9pt "Microsoft Yahei";
 }
 
 QWidget:focus
@@ -22,11 +16,9 @@ QWidget[Background="true"]
 /* QPushButton */
 QPushButton[Ok="true"]
 {
-    min-width: 4.8em;
-    min-height: 2.4em;
-    border-radius: 0.2em;
-    padding-left: 1em;
-    padding-right: 1em;
+    border: 1px solid #409eff;
+    border-radius: 4px;
+    padding: 10px 24px;
     color: #fefefe;
     background-color: #409eff;
 }
@@ -48,11 +40,9 @@ QPushButton[Ok="true"]:!enabled
 
 QPushButton[Cancel="true"]
 {
-    min-height: 1.5em;
     border: 1px solid #dcdfe6;
-    border-radius: 2px;
-    padding-left: 1em;
-    padding-right: 1em;
+    border-radius: 4px;
+    padding: 10px 24px;
     color: #666666;
     background-color: #f3f4f5;
 }
@@ -74,12 +64,9 @@ QPushButton[Cancel="true"]:!enabled
 
 QPushButton[Danger="true"]
 {
-    min-height: 2.4em;
-    min-width: 6em;
     border: 1px solid #ff4d4f;
-    border-radius: 0.3em;
-    padding-left: 1em;
-    padding-right: 1em;
+    border-radius: 4px;
+    padding: 10px 24px;
     color: #fefefe;
     background-color: #ff4d4f;
 }
@@ -103,8 +90,9 @@ QPushButton[Danger="true"]:!enabled
 QLineEdit
 {
     border: 1px solid #e0e0e0;
+    padding: 10px 24px;
     padding-left: 0.2em;
-    border-radius: 0.16em;
+    border-radius: 4px;
     color: #666666;
 }
 
@@ -136,7 +124,7 @@ QCheckBox
 QCheckBox::indicator
 {
     border: 1px solid #e0e0e0;
-    border-radius: 0.1em;
+    border-radius: 4px;
 }
 
 QCheckBox::indicator:checked
