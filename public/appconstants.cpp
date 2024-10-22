@@ -1,4 +1,5 @@
 ﻿#include "appconstants.h"
+#include "log/applogger.h"
 
 #include <QJsonObject>
 #include <QJsonParseError>
@@ -16,8 +17,13 @@ void AppConstants::init()
 {
     // 填充状态码
     QFile file(":/resource/json/constants.json");
-    if (!file.open(QFile::ReadOnly)) return;
+    if (!file.open(QFile::ReadOnly))
+    {
+        LOG_DEBUG("json config file open failed.");
+        return;
+    }
     mJsonDocument = QJsonDocument::fromJson(file.readAll());
+    if (mJsonDocument.isEmpty()) LOG_DEBUG("json config file parse failed.");
 }
 
 void AppConstants::fillComboBox(ItemType type, QComboBox *cb)
@@ -36,4 +42,8 @@ void AppConstants::fillComboBox(ItemType type, QComboBox *cb)
        cb->addItem(obj.value(keys.at(index)).toString(), keys.at(index).toInt());
     }
     cb->setView(new QListView());
+
+    // 设置无阴影
+    cb->view()->parentWidget()->setWindowFlags(Qt::NoDropShadowWindowHint | Qt::Popup | Qt::FramelessWindowHint);
+    cb->view()->parentWidget()->setAttribute(Qt::WA_TranslucentBackground);
 }
