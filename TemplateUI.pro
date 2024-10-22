@@ -35,7 +35,7 @@ INCLUDEPATH += $$PWD/sdk/spdlog/include
 
 SOURCES += \
     conf/appconfig.cpp \
-    log/logger.cpp \
+    log/applogger.cpp \
     public/appconstants.cpp \
     public/appsignal.cpp \
     main.cpp \
@@ -43,7 +43,7 @@ SOURCES += \
 
 HEADERS += \
     conf/appconfig.h \
-    log/logger.h \
+    log/applogger.h \
     public/appconstants.h \
     public/appsignal.h \
     mainwindow.h

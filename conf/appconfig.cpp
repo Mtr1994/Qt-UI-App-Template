@@ -1,5 +1,5 @@
 ﻿#include "appconfig.h"
-#include "log/logger.h"
+#include "log/applogger.h"
 
 using namespace std;
 

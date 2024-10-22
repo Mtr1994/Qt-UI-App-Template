@@ -1,5 +1,5 @@
 #include "mainwindow.h"
-#include "log/logger.h"
+#include "log/applogger.h"
 #include "conf/appconfig.h"
 
 #include <QApplication>
@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     // init log
-    Logger::init(Logger::LOG_CONSOLE);
+    AppLogger::init(AppLogger::LOG_CONSOLE);
 
     // 初始化配置文件
     AppConfig::getInstance()->init();

@@ -1,4 +1,4 @@
-#include "logger.h"
+#include "applogger.h"
 
 #include "spdlog/sinks/rotating_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
@@ -6,18 +6,18 @@
 
 // https://github.com/gabime/spdlog/wiki/3.-Custom-formatting
 
-Logger::Logger()
+AppLogger::AppLogger()
 {
 
 }
 
-Logger::~Logger()
+AppLogger::~AppLogger()
 {
     spdlog::drop_all();
     spdlog::shutdown();
 }
 
-void Logger::init(int type)
+void AppLogger::init(int type)
 {
     if (type == LOG_CONSOLE)
     {
