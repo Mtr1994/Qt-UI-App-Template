@@ -25,23 +25,38 @@ void WidgetMultiBeamView::init()
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(AppSignal::getInstance(), &AppSignal::sgl_recv_multibeam_bath_data, this, &WidgetMultiBeamView::slot_recv_multibeam_bath_data);
 
-    mViewBoundingRect = QRectF(-1, -1, 2, 2);
+    double rv = std::numeric_limits<double>::max();
+    mBathyDataRange = std::vector<double>{rv, -rv, rv, -rv, rv, -rv};
 }
 
 void WidgetMultiBeamView::focusView()
 {
-    QRectF rect = boundingRect();
-     LOG_INFO("bounding rect is {} {} {} {}", rect.x(), rect.y(), rect.width(), rect.height());
+    QRectF rect = QRectF(QPointF(mBathyDataRange.at(0), mBathyDataRange.at(1)), QPointF(mBathyDataRange.at(2), mBathyDataRange.at(3)));
+    //LOG_INFO("bounding rect is {} {} {} {}", rect.x(), rect.y(), rect.width(), rect.height());
     if ((rect.width() == 0) && (rect.height() == 0))
     {
         mViewScale = 1.0;
         mOffsetX = 0; mOffsetY = 0;
-        mViewBoundingRect = QRectF(-1, -1, 2, 2);
     }
     else
     {
-        mViewBoundingRect = rect;
+        QPointF tl = mapToOpenGL(QPointF(0, 0));
+        QPointF br = mapToOpenGL(QPointF(width(), height()));
+        float r1 = width() * 1.0 / rect.width();
+        float r2 = height() * 1.0 / rect.height();
+        if (r1 > r2)
+        {
+            mViewScale = qAbs(br.y() - tl.y()) * mViewScale / qAbs(rect.height()) * 0.6;
+        }
+        else
+        {
+            mViewScale = qAbs(br.x() - tl.x()) * mViewScale / qAbs(rect.width()) * 0.6;
+        }
+
+        mOffsetX = 0;
+        mOffsetY = 0;
     }
+    update();
     update();
 }
 
@@ -118,6 +133,12 @@ void WidgetMultiBeamView::initializeGL()
     mShaderProgram.setUniformValueArray("colormap", colormap.constData(), 256);
 
     LOG_DEBUG("opengl init success.");
+
+    mTestFlag = false;
+    if (mTestFlag)
+    {
+        mBathyDataRange = std::vector<double>{0.0, 100.0, 0.0, 100.0, 0.0, 100.0};
+    }
 }
 
 void WidgetMultiBeamView::resizeGL(int w, int h)
@@ -136,28 +157,38 @@ void WidgetMultiBeamView::paintGL()
     glEnable(GL_DEPTH_TEST);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-    float cx = mViewBoundingRect.center().x();
-    float cy = mViewBoundingRect.center().y();
+    float cx = mBathyDataRange.at(0) + (mBathyDataRange.at(1) - mBathyDataRange.at(0)) * 0.5;
+    float cy = mBathyDataRange.at(2) + (mBathyDataRange.at(3) - mBathyDataRange.at(2)) * 0.5;
+    float cz = mBathyDataRange.at(4) + (mBathyDataRange.at(5) - mBathyDataRange.at(4)) * 0.5;
 
     // 判断是否绘制网格
     QMatrix4x4 view;
-    view.lookAt(QVector3D(cx * mViewScale , cy * mViewScale, mMinBathyDepth * -1.0), QVector3D(cx * mViewScale, cy * mViewScale, mMinBathyDepth), QVector3D(0, 1, 0));
+    //view.lookAt(QVector3D(cx * mViewScale , cy * mViewScale, mMinBathyDepth * -1.0), QVector3D(cx * mViewScale, cy * mViewScale, mMinBathyDepth), QVector3D(0, 1, 0));
+    view.lookAt(QVector3D(0, 0, -mBathyDataRange.at(5) * 0.1), QVector3D(0, 0, 0), QVector3D(0, 1, 0));
     view.scale(mViewScale);
-    view.rotate(mOffsetX * 0.2, 0.0f, 1.0f, 0.0f);
+    view.rotate(mOffsetX *  0.16, 0.0f, 1.0f, 0.0f);
+    view.rotate(mOffsetY * -0.16, 1.0f, 0.0f, 0.0f);
+    view.translate(-cx, -cy, -cz);
+
     mShaderProgram.setUniformValue("view", view);
 
     QMatrix4x4 model;
+    model.setToIdentity();
     // model.translate(cx, cy, mMaxBathyDepth + (mMinBathyDepth - mMaxBathyDepth) * 0.5);
     // model.rotate(mOffsetX * 0.2, 0.0f, 1.0f, 0.0f);
     // model.rotate(mOffsetY * 0.2, 1.0f, 0.0f, 0.0f);
     // model.translate(-cx, -cy, -mMaxBathyDepth - (mMinBathyDepth - mMaxBathyDepth) * 0.5);
-
     mShaderProgram.setUniformValue("model", model);
 
-    drawPoints();
-
     // 测试数据
-    //drawTest();
+    if (mTestFlag)
+    {
+        drawTest();
+    }
+    else
+    {
+        drawPoints();
+    }
 }
 
 void WidgetMultiBeamView::wheelEvent(QWheelEvent *event)
@@ -224,11 +255,6 @@ QPointF WidgetMultiBeamView::mapToOpenGL(const QPointF &point)
     return QPointF(x1, y1);
 }
 
-QRectF WidgetMultiBeamView::boundingRect()
-{
-    return mBathyDataBoundingRect;
-}
-
 void WidgetMultiBeamView::drawPoints()
 {
     glBindVertexArray(mVAOArray[0]);
@@ -266,38 +292,47 @@ void WidgetMultiBeamView::drawPoints()
 
 void WidgetMultiBeamView::drawTest()
 {
-    //float vertices[12] = {0.0f, 0.0f, 10.0f, 7.0f, 100.0f, 100.0f, 20.0f, 12.0f, 200.0f, 200.0f, 30.0f, 24.0f};
-    float vertices[3000];
-    for (int i = 0; i < 50; i++)
-    {
-        for (int j = 0; j < 20; j++)
-        {
-            vertices[i * 60 + j * 3 + 0] = i;
-            vertices[i * 60 + j * 3 + 1] = j;
-            vertices[i * 60 + j * 3 + 2] = -i - j * 6;
+    const int size = 100;
+    const int totalPoints = size * size * size;
+    const int arraySize = 3 * totalPoints; // 每个点有3个坐标值
+
+    // 使用std::vector来管理内存，但你也可以使用原始的float数组
+    std::vector<float> vertices(arraySize);
+
+    // 或者，如果你更喜欢使用原始的float数组：
+    // float pointCloud[arraySize];
+
+    int index = 0;
+    for (int i = 0; i < size; ++i) {
+        for (int j = 0; j < size; ++j) {
+            for (int k = 0; k < size; ++k) {
+                // 设置点的坐标（这里只是示例，你可以根据需要设置具体的坐标值）
+                vertices[index++] = static_cast<float>(i); // x坐标
+                vertices[index++] = static_cast<float>(j); // y坐标
+                vertices[index++] = static_cast<float>(k); // z坐标
+            }
         }
     }
 
     glBindVertexArray(mVAOArray[1]);
     glBindBuffer(GL_ARRAY_BUFFER, mVBOArray[1]);
-    glBufferData(GL_ARRAY_BUFFER, 4 * 3 * 1000, vertices, GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, 4 * 3 * totalPoints, vertices.data(), GL_DYNAMIC_DRAW);
 
     // position attribute
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
     glPointSize(2.0);
-    mShaderProgram.setUniformValue("u_Color", 0.2f, 0.7725f, 0.5254f, 1.0f);
 
     // 让点是圆形的
     glEnable(GL_POINT_SMOOTH);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-    glDrawArrays(GL_POINTS, 0, 1000);
+    glDrawArrays(GL_POINTS, 0, totalPoints);
     glDisableVertexAttribArray(0);
     glDisable(GL_POINT_SMOOTH);
 }
 
-void WidgetMultiBeamView::slot_recv_multibeam_bath_data(uint32_t number, float *points, const QRectF &rect, double minZ, double maxZ)
+void WidgetMultiBeamView::slot_recv_multibeam_bath_data(uint32_t number, float *points, const std::vector<double> &ranges)
 {
     //LOG_DEBUG("recv bathy data {} {}", mBathyPointNumber, number);
     if (number == 0) return;
@@ -354,8 +389,10 @@ void WidgetMultiBeamView::slot_recv_multibeam_bath_data(uint32_t number, float *
     mBathyPointData = newBathyPointData;
 
     // 更新地形的范围
-    mBathyDataBoundingRect = mBathyDataBoundingRect.united(rect);
-    mMinBathyDepth = qMin(mMinBathyDepth, minZ);
-    mMaxBathyDepth = qMax(mMaxBathyDepth, maxZ);
+    for (uint8_t i = 0; i < 3; i++)
+    {
+        mBathyDataRange[i * 2 + 0] = qMin(mBathyDataRange[i * 2 + 0], ranges[i * 2 + 0]);
+        mBathyDataRange[i * 2 + 1] = qMax(mBathyDataRange[i * 2 + 1], ranges[i * 2 + 1]);
+    }
     update();
 }

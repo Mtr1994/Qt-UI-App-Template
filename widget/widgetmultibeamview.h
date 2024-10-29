@@ -32,13 +32,12 @@ protected:
 
 private:
     QPointF mapToOpenGL(const QPointF &point);
-    QRectF  boundingRect();
 
     void drawPoints();
     void drawTest();
 
 private slots:
-    void slot_recv_multibeam_bath_data(uint32_t number, float* points, const QRectF& rect, double minZ, double maxZ);
+    void slot_recv_multibeam_bath_data(uint32_t number, float* points, const std::vector<double> &ranges);
 
 private:
     // 着色器
@@ -66,11 +65,9 @@ private:
     uint32_t mBathyPointNumber = 0;
     float *mBathyPointData = nullptr;
 
-    QRectF mBathyDataBoundingRect;
-    double mMinBathyDepth = 0.0;
-    double mMaxBathyDepth = 0.0;
+    std::vector<double> mBathyDataRange;
 
-    QRectF mViewBoundingRect;
+    bool mTestFlag = false;
 };
 
 #endif // WIDGETMULTIBEAMVIEW_H

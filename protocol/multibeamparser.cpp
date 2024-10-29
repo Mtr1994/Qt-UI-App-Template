@@ -86,7 +86,7 @@ void MultiBeamParser::parseMessage()
 
 void MultiBeamParser::parsePack0xA1(const std::string &package, uint64_t length)
 {
-    LOG_DEBUG("parse A1 package");
+    //LOG_DEBUG("parse A1 package");
     char mask[5] = {'\n'};
     memcpy((char *)&mask, package.data(), 4);
     if (std::string(mask) != "$IOA")
@@ -162,8 +162,8 @@ void MultiBeamParser::parsePack0xA1(const std::string &package, uint64_t length)
         minZ = qMin(minZ, z); maxZ = qMax(maxZ, z);
     }
 
-    QRectF rect = {minX, minY, maxX - minX, maxY - minY};
-    emit AppSignal::getInstance()->sgl_recv_multibeam_bath_data(counter, points, rect, minZ, maxZ);
+    std::vector<double> ranges = {minX, maxX, minY, maxY, minZ, maxZ};
+    emit AppSignal::getInstance()->sgl_recv_multibeam_bath_data(counter, points, ranges);
 }
 
 void MultiBeamParser::parsePack0xA2(const std::string &data, uint64_t length)

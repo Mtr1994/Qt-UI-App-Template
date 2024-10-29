@@ -20,7 +20,7 @@ signals:
 
     void sgl_recv_multibeam_data(const std::string& data, uint64_t length);
 
-    void sgl_recv_multibeam_bath_data(uint32_t number, float* points, const QRectF& rect, double minZ, double maxZ);
+    void sgl_recv_multibeam_bath_data(uint32_t number, float* points, const std::vector<double> &ranges);
 
 };
 
