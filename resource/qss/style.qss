@@ -13,6 +13,11 @@ QWidget[Background="true"]
     background-color: #fefefe;
 }
 
+QWidget#widgetLeft, #widgetRight
+{
+    border: 1px solid #d0d0d0;
+}
+
 /* QPushButton */
 QPushButton[Ok="true"]
 {

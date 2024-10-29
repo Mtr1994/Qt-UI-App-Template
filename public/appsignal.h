@@ -2,7 +2,7 @@
 #define APPSIGNAL_H
 
 #include <QObject>
-
+#include <QRectF>
 
 class AppSignal : public QObject
 {
@@ -17,6 +17,10 @@ public:
 
 signals:
     void sgl_recv_system_message(const QString &msg, int status);
+
+    void sgl_recv_multibeam_data(const std::string& data, uint64_t length);
+
+    void sgl_recv_multibeam_bath_data(uint32_t number, float* points, const QRectF& rect, double minZ, double maxZ);
 
 };
 
